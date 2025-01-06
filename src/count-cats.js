@@ -17,18 +17,20 @@ const { NotImplementedError } = require("../extensions/index.js");
 
 function countCats(matrix) {
   let cats_counter = 0;
+  let stack = [...matrix];
 
-  function isCat(data) {
-    if (data === "^^") cats_counter += 1;
-  }
+  while (stack.length > 0) {
+    const item = stack.pop();
 
-  for (let i = 0; i < matrix.length; i += 1) {
-    if (matrix[i] instanceof Array) {
-      for (let k = 0; k < matrix[i].length; k += 1) {
-        isCat(matrix[i][k]);
+    if (Array.isArray(item)) {
+      stack.push(...item);
+    } else {
+      if (item === "^^") {
+        cats_counter += 1;
       }
-    } else isCat(matrix[i]);
+    }
   }
+
   return cats_counter;
 }
 
